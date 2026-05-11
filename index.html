@@ -286,8 +286,8 @@ tbody tr:hover { background: var(--bg1); }
   </div>
   <div id="dtCustomRange" style="display:none;margin-bottom:12px;">
     <div style="display:flex;gap:6px;align-items:center;">
-      <input type="date" id="dtFrom" style="flex:1;min-width:0;padding:7px 10px;border-radius:9px;border:1px solid var(--sep);background:var(--bg2);color:var(--txt);font-size:13px;font-family:var(--font);outline:none;box-shadow:var(--shadow);" onchange="renderDetail()" placeholder="開始">
-      <input type="date" id="dtTo" style="flex:1;min-width:0;padding:7px 10px;border-radius:9px;border:1px solid var(--sep);background:var(--bg2);color:var(--txt);font-size:13px;font-family:var(--font);outline:none;box-shadow:var(--shadow);" onchange="renderDetail()" placeholder="結束">
+      <input type="date" id="dtFrom" style="flex:0 0 130px;min-width:0;padding:7px 8px;border-radius:9px;border:1px solid var(--sep);background:var(--bg2);color:var(--txt);font-size:13px;font-family:var(--font);outline:none;box-shadow:var(--shadow);" onchange="renderDetail()" placeholder="開始">
+      <input type="date" id="dtTo" style="flex:0 0 130px;min-width:0;padding:7px 8px;border-radius:9px;border:1px solid var(--sep);background:var(--bg2);color:var(--txt);font-size:13px;font-family:var(--font);outline:none;box-shadow:var(--shadow);" onchange="renderDetail()" placeholder="結束">
       <input id="dtCodeFilter" type="text" placeholder="股號" maxlength="6" autocomplete="off"
         style="width:64px;flex-shrink:0;padding:7px 10px;border-radius:9px;border:1px solid var(--sep);background:var(--bg2);color:var(--txt);font-size:16px;font-family:var(--mono);outline:none;box-shadow:var(--shadow);transition:border-color .15s;"
         oninput="renderDetail()"
@@ -427,7 +427,7 @@ function fmt(n,d){
   if(n==null||isNaN(n))return"—";
   return n.toLocaleString("zh-TW",{minimumFractionDigits:d||0,maximumFractionDigits:d||0});
 }
-function fmtM(n){return"NT$"+fmt(n);}
+function fmtM(n){return fmt(n);}
 function fmtPct(n){return(n>=0?"+":"")+n.toFixed(2)+"%";}
 function gp(c){return P[c]||MP[c]||null;}
 function uniq(arr){var s={},r=[];arr.forEach(function(c){if(!s[c]){s[c]=1;r.push(c);}});return r;}
@@ -591,7 +591,7 @@ function renderSummary(){
   var tpEl=document.getElementById("todayPnl"),tpcEl=document.getElementById("todayPct");
   if(todayOk&&todayBase>0){
     var tpct=todayPnl/todayBase*100;
-    tpEl.textContent=(todayPnl>=0?"+":"−")+"NT$"+fmt(Math.abs(todayPnl));
+    tpEl.textContent=(todayPnl>=0?"+":"−")+fmt(Math.abs(todayPnl));
     tpEl.className="header-pnl "+cc(todayPnl);
     tpcEl.textContent=fmtPct(tpct);
     tpcEl.className=cc(todayPnl);
@@ -606,7 +606,7 @@ function renderSummary(){
   // Unrealized P/L cards
   if(full&&active.length){
     var pnl=tv-tc,pct=tc?pnl/tc*100:0;
-    document.getElementById("sp").textContent=(pnl>=0?"+":"")+"NT$"+fmt(Math.abs(pnl));
+    document.getElementById("sp").textContent=(pnl>=0?"+":"")+fmt(Math.abs(pnl));
     document.getElementById("sp").className="card-val "+cc(pnl);
     document.getElementById("spp").textContent=fmtPct(pct);
     document.getElementById("spp").className="card-sub "+cc(pnl);
@@ -617,7 +617,7 @@ function renderSummary(){
   }
   var realized=hs.reduce(function(s,h){return s+h.realized;},0);
   var srEl=document.getElementById("sr");
-  if(realized!==0){srEl.textContent=(realized>=0?"+":"")+"NT$"+fmt(Math.abs(realized));srEl.className="card-val "+cc(realized);}
+  if(realized!==0){srEl.textContent=(realized>=0?"+":"")+fmt(Math.abs(realized));srEl.className="card-val "+cc(realized);}
   else{srEl.textContent="—";srEl.className="card-val";}
 }
 
@@ -638,7 +638,7 @@ function renderHoldings(){
     html+='<div class="h-stock-meta">'+h.c+'&nbsp;&nbsp;<b>'+fmt(h.qty)+'</b> 股</div></div>';
     html+='<div class="h-right">';
     if(pnl!=null){
-      html+='<div class="h-pnl '+cc(pnl)+'">'+(pnl>=0?"+":"")+"NT$"+fmt(Math.abs(pnl))+'</div>';
+      html+='<div class="h-pnl '+cc(pnl)+'">'+(pnl>=0?"+":"")+fmt(Math.abs(pnl))+'</div>';
       html+='<div class="h-pct '+cc(pnl)+'">'+fmtPct(pct)+'</div>';
     } else {
       html+='<div class="h-pnl neu">—</div>';
